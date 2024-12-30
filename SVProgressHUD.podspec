@@ -1,17 +1,31 @@
 Pod::Spec.new do |s|
   s.name     = 'SVProgressHUD'
-  s.version  = '1.1.3'
-  s.platform = :ios, '6.1'
-  s.license  = 'MIT'
-  s.summary  = 'A clean and lightweight progress HUD for your iOS app.'
-  s.homepage = 'http://samvermette.com/199'
-  s.authors   = { 'Sam Vermette' => 'hello@samvermette.com' }
-  s.source   = { :git => 'https://github.com/TransitApp/SVProgressHUD.git', :tag => s.version.to_s }
+  s.version  = '2.3.1'
+  s.ios.deployment_target = '12.0'
+  s.tvos.deployment_target = '12.0'
+  s.license  =  { :type => 'MIT', :file => 'LICENSE' }
+  s.summary  = 'A clean and lightweight progress HUD for your iOS and tvOS app.'
+  s.homepage = 'https://github.com/SVProgressHUD/SVProgressHUD'
+  s.authors   = { 'Sam Vermette' => 'hello@samvermette.com', 'Tobias Totzek' => 'tobias@totzek.me' }
+  s.source   = { :git => 'https://github.com/SVProgressHUD/SVProgressHUD.git', :tag => s.version.to_s }
 
-  s.description = 'SVProgressHUD is an easy-to-use, clean and lightweight progress HUD for iOS. It’s a simplified and prettified alternative to the popular MBProgressHUD. The success and error icons are from Freepik.'
+  s.description = 'SVProgressHUD is a clean and easy-to-use HUD meant to display the progress of an ongoing task on iOS and tvOS. The success and error icons are from Freepik from Flaticon and are licensed under Creative Commons BY 3.0.'
 
-  s.source_files = 'SVProgressHUD/*.{h,m}'
   s.framework    = 'QuartzCore'
-  s.resources    = 'SVProgressHUD/SVProgressHUD.bundle'
   s.requires_arc = true
+
+  s.default_subspec = 'Core'
+
+  s.subspec 'Core' do |core|
+    core.source_files = 'SVProgressHUD/*.{h,m}'
+    core.resources = ['SVProgressHUD/SVProgressHUD.bundle']
+    core.resource_bundles = {'SVProgressHUD' => ['SVProgressHUD/PrivacyInfo.xcprivacy']}
+  end
+
+  s.subspec 'AppExtension' do |ext|
+    ext.source_files = 'SVProgressHUD/*.{h,m}'
+    ext.resources = ['SVProgressHUD/SVProgressHUD.bundle']
+    ext.resource_bundles = {'AppExtension' => ['SVProgressHUD/PrivacyInfo.xcprivacy']}
+    ext.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SV_APP_EXTENSIONS=1' }
+  end
 end
